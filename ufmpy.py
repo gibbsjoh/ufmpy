@@ -7,9 +7,9 @@ import json
 # set server name, creds, API endpoints
 # for the moment, the server is defind here
 # tbd in future version - pass the server etc as parameters
-fmServer = "https://fmserver.smthng.pw"
+fmServer = "https://fmserver.example.com"
 accountName = "dataapi"
-password = "0ccur4nc3!"
+password = "password"
 
 # the username/password is passed as username:password, Base64 encoded
 creds = accountName + ":" + password
