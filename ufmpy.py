@@ -10,12 +10,12 @@ import re
 # set server name, creds, API endpoints
 # for the moment, the server is defind here
 # tbd in future version - pass the server etc as parameters
-fmServer = "https://fmserver.smthng.pw"
-accountName = "dataapi"
-password = "0ccur4nc3!"
+fmServer = "https://fmserver.mydomain.com"
+accountName = "admin"
+password = "password"
 
 adminAccount = "admin"
-adminPassword = "dance200"
+adminPassword = "password"
 
 # the username/password is passed as username:password, Base64 encoded
 creds = accountName + ":" + password
@@ -278,3 +278,4 @@ def fmInvalidateDAPIToken(theDatabase,theToken):
         return theResponse
     else:
         return response.status_code
+
