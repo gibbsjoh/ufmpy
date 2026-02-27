@@ -10,12 +10,12 @@ import re
 # set server name, creds, API endpoints
 # for the moment, the server is defind here
 # tbd in future version - pass the server etc as parameters
-fmServer = "https://myfmserver"
-accountName = "user"
+fmServer = "https://fmserver.smthng.pw"
+accountName = "dataapi"
 password = "0ccur4nc3!"
 
 adminAccount = "admin"
-adminPassword = "password"
+adminPassword = "dance200"
 
 # the username/password is passed as username:password, Base64 encoded
 creds = accountName + ":" + password
@@ -221,6 +221,56 @@ def editRecord(theSolution, theLayout, theRecordID, thePayload, theToken):
     }
 
     response = urequests.patch(url, headers=headers, data=data)
+
+    # Check and return the response
+    if response.status_code == 200:
+        theResponse = response.json()
+        return theResponse
+    else:
+        return response.status_code
+
+#########################
+# create a new record   #
+#########################
+def createRecord(theSolution, theLayout, thePayload, theToken):
+    # lots of params here, all self explanatory. needs the token we got from the function above
+    # define the endpoint
+    theEndpoint = "/fmi/data/" + apiVersion + "/databases/" + theSolution + "/layouts/" + theLayout + "/records"
+    url = fmServer + theEndpoint
+
+    data = json.dumps(thePayload).encode('utf-8')
+    contentLength = len(data)
+
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + theToken,
+        "Content-Length": str(contentLength)
+    }
+
+    response = urequests.post(url, headers=headers, data=data)
+
+    # Check and return the response
+    if response.status_code == 200:
+        theResponse = response.json()
+        return theResponse
+    else:
+        return response.status_code
+    
+##################################
+# Invalidate the Data API token  #
+##################################
+def fmInvalidateDAPIToken(theDatabase,theToken):
+    theEndpoint = "/fmi/data/v1/databases/" + theDatabase + "/sessions/" + theToken
+    url = fmServer + theEndpoint
+
+    headers = {
+        "Content-Type": "application/json",
+        "Content-Length": "0"
+    }
+    # Properly format headers as a JSON string
+    headers_json = ujson.dumps(headers)
+
+    response = urequests.delete(url, headers=ujson.loads(headers_json))
 
     # Check and return the response
     if response.status_code == 200:
